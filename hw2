@@ -21,7 +21,7 @@
      clone: yes
      update: yes
 
-  - name: building a project
+  - name: building Boxfuse project
     shell: cd /tmp/boxfuse &&  mvn package
 
 
