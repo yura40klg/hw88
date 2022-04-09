@@ -1,0 +1,63 @@
+---
+- name: install maven
+  hosts: db
+  become: yes
+
+  tasks:
+  - name: Ensure git  is present
+    apt:
+     name: git
+     state: present
+
+  - name: Install maven
+    apt:
+     name: maven
+     state: present
+
+  - name: Git clone
+    git:
+     repo: "https://github.com/boxfuse/boxfuse-sample-java-war-hello.git"
+     dest: /tmp/boxfuse
+     clone: yes
+     update: yes
+
+  - name: building a project
+    shell: cd /tmp/boxfuse &&  mvn package
+
+
+  - name: Ensure *.war artifact is present
+    fetch:
+     src: /tmp/boxfuse/target/hello-1.0.war
+     dest: /tmp/war/
+     flat: yes
+
+
+- name: install tomcat
+  hosts: web
+  become: yes
+
+  tasks:
+
+  - name: install jdk
+    apt:
+     name: openjdk-11-jdk
+     state: present
+
+  - name: download tomcat server packages
+    get_url:
+      url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.62/bin/apache-tomcat-9.0.62.tar.gz
+      dest: /usr/local
+
+  - name: extract tomcat packages
+    unarchive:
+      src: /usr/local/apache-tomcat-9.0.62.tar.gz
+      dest: /usr/local
+      remote_src: yes
+
+  - name: Ensure *.war artifact is present
+    copy:
+     src: /tmp/war/hello-1.0.war
+     dest: /usr/local/apache-tomcat-9.0.62/webapps/
+
+  - name: start tomcat services
+    shell: /usr/local/apache-tomcat-9.0.62/bin/catalina.sh start
