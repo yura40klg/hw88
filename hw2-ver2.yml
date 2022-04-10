@@ -9,14 +9,29 @@
      name: docker
      state: present
 
-
-- name: install and started docker container buildboxfuse
+- name: started docker build  container
   hosts: db
   become: yes
 
   tasks:
-  - name: container buildboxfuse
-    docker_container:
-     name: bitsl
-     image: buildboxfuse
+  - name:  started docker build container
+    shell: docker run -d -p 8080:8080 bitsl/buildboxfuse
+
+- name: started docker Tomcat container
+  hosts: web
+  become: yes
+
+  tasks:
+  - name:  started docker tomcat container
+    shell: docker run -d -p 8080:8080 bitsl/tomcatboxfuse
+
+#- name: install and started docker container buildboxfuse
+#  hosts: db
+#  become: yes
+
+#  tasks:
+#  - name: container buildboxfuse
+#    docker_container:
+#     name: bitsl
+#     image: buildboxfuse
 
