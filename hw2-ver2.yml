@@ -1,5 +1,4 @@
 ---
-
 - name: started docker build  container
   hosts: db
   become: yes
@@ -7,8 +6,8 @@
   tasks:
   - name: Ensure docker  is present
     apt:
-     name: docker
-      state: present
+     name: docker.io
+     state: present
 
   - name:  started docker build container
     shell: docker run -d -p 8080:8080 bitsl/buildboxfuse
@@ -20,10 +19,10 @@
   tasks:
   - name: Ensure docker  is present
     apt:
-     name: docker
+     name: docker.io
      state: present
 
-  - name:  started docker tomcat container
+  - name: started docker tomcat container
     shell: docker run -d -p 8080:8080 bitsl/tomcatboxfuse
 
 #- name: install and started docker container buildboxfuse
@@ -35,4 +34,6 @@
 #    docker_container:
 #     name: bitsl
 #     image: buildboxfuse
+
+root@a1:~/test/hw88#
 
