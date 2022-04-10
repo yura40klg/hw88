@@ -1,0 +1,32 @@
+---
+- name: install Docker
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: Ensure docker  is present
+    apt:
+     name: docker
+     state: present
+
+
+- name: install and started docker container buildboxfuse
+  hosts: db
+  become: yes
+
+  tasks:
+  - name: container buildboxfuse
+    docker_container:
+     name: bitsl
+     state: buildboxfuse
+
+
+- name: install and started docker container tomcatboxfuse
+  hosts: web
+  become: yes
+
+  tasks:
+  - name: container tomcatboxfuse
+        docker_container:
+          name: bitsl
+          state: tomcatboxfuse
