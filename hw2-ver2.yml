@@ -1,19 +1,15 @@
 ---
-- name: install Docker
-  hosts: all
-  become: yes
-
-  tasks:
-  - name: Ensure docker  is present
-    apt:
-     name: docker
-     state: present
 
 - name: started docker build  container
   hosts: db
   become: yes
 
   tasks:
+  - name: Ensure docker  is present
+    apt:
+     name: docker
+      state: present
+
   - name:  started docker build container
     shell: docker run -d -p 8080:8080 bitsl/buildboxfuse
 
@@ -22,6 +18,11 @@
   become: yes
 
   tasks:
+  - name: Ensure docker  is present
+    apt:
+     name: docker
+     state: present
+
   - name:  started docker tomcat container
     shell: docker run -d -p 8080:8080 bitsl/tomcatboxfuse
 
