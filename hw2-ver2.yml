@@ -10,7 +10,7 @@
      state: present
 
   - name:  started docker build container
-    shell: docker run -d -p 8080:8080 bitsl/buildboxfuse
+    shell: docker run -d bitsl/buildboxfuse
 
 - name: started docker Tomcat container
   hosts: web
@@ -23,7 +23,7 @@
      state: present
 
   - name: started docker tomcat container
-    shell: docker run -d -p 8080:8080 bitsl/tomcatboxfuse
+    shell:  docker stop $(docker ps -a -q) && docker run -d -p 8080:8080 bitsl/tomcatboxfuse
 
 #- name: install and started docker container buildboxfuse
 #  hosts: db
@@ -34,6 +34,3 @@
 #    docker_container:
 #     name: bitsl
 #     image: buildboxfuse
-
-root@a1:~/test/hw88#
-
