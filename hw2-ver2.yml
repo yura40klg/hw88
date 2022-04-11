@@ -9,8 +9,26 @@
      name: docker.io
      state: present
 
-  - name:  started docker build container
-    shell: docker run -d bitsl/buildboxfuse
+  - name: Ensure python-pip is present
+    apt:
+     name: python-pip
+     state: present
+
+  - name: docker.py
+    pip:
+     name: docker.py
+
+  - name:   docker build container boxfuse
+    docker_container:
+     name: buildboxfuse
+     image: bitsl/buildboxfuse
+
+
+  - name:   docker  container boxfuse started
+    docker_container:
+     name: bulildboxfuse
+     image: bitsl/buildboxfuse
+     state: started
 
 - name: started docker Tomcat container
   hosts: web
@@ -22,15 +40,23 @@
      name: docker.io
      state: present
 
-  - name: started docker tomcat container
-    shell:  docker stop $(docker ps -a -q) && docker run -d -p 8080:8080 bitsl/tomcatboxfuse
+  - name: Ensure python-pip is present
+    apt:
+     name: python-pip
+     state: present
 
-#- name: install and started docker container buildboxfuse
-#  hosts: db
-#  become: yes
+  - name: docker.py
+    pip:
+     name: docker.py
 
-#  tasks:
-#  - name: container buildboxfuse
-#    docker_container:
-#     name: bitsl
-#     image: buildboxfuse
+ # - name:   docker build container tomcate
+ #   docker_container:
+ #    name: tomcatboxfuse
+ #    image: bitsl/tomcatboxfuse
+
+  - name:   docker  container tomcate started
+    docker_container:
+     name: tomcatboxfuse
+     image: bitsl/tomcatboxfuse
+     state: started
+     ports : "8080:8080"
